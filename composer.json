@@ -1,0 +1,33 @@
+{
+  "name": "jackbayliss/laravel-model-connection",
+  "description": "Define separate read/write database connections per Eloquent model.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": ["laravel", "eloquent", "database", "connections", "read-write"],
+  "authors": [
+    {
+      "name": "Jack Bayliss",
+      "email": "jjbdev@proton.me"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "illuminate/support": "^12.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.0",
+    "phpunit/phpunit": "^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "JackBayliss\\LaravelModelConnection\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "JackBayliss\\LaravelModelConnection\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
