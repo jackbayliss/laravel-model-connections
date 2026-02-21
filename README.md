@@ -14,7 +14,7 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 ],
 ```
 
-There's no first-party way to say "this specific model should read from a replica, but that model should always hit the primary." This package fills that gap — giving you per-model control over read and write connections without touching your connection config.
+There's no first-party way to set specific models to only read. This package gives you control over read and write connections per model without touching your connection config.
 
 ## Supports
 - Laravel 12
