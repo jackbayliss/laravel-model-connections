@@ -87,7 +87,7 @@ $user = (new User)
 
 ## Using with Factories
 
-By default, factories will write to your model's `$writeConnection`. In a real application this is correct — replication will sync the data to your read replica.
+By default, factories will write to your model's `$writeConnection` (default if empty). In a real application this is correct — replication will sync the data to your read replica.
 
 However, in tests you typically want factory-created records to be immediately readable via the model. Since reads go to `$readConnection`, you need factory writes to land there too.
 
