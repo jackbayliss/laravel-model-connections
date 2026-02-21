@@ -10,3 +10,5 @@ parameters:
 
     ignoreErrors:
         - identifier: property.notFound
+        - identifier: method.notFound
+          path: src/Traits/HasReadWriteConnectionFactory.php
