@@ -14,8 +14,14 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 ],
 ```
 
-There's no first-party way to set specific models to only read. This package gives you control over read and write connections per model without touching your connection config.
-This is extremely useful if you know certain models can be deferred to a replica, and certain models are required instantly.
+There's no first-party way to set specific models to only read. The alternative is manually calling `::on()` or `->setConnection()` everywhere you query, which is easy to forget and scatters connection logic across your codebase:
+```php
+// Without this package — you have to remember to do this every time
+User::on('mysql_replica')->where('active', true)->get();
+Post::on('mysql_replica')->latest()->get();
+```
+
+This package gives you control over read and write connections per model without touching your connection config, and without sprinkling `::on()` calls throughout your code. This is extremely useful if you know certain models can be deferred to a replica, and certain models are required instantly.
 
 ## Supports
 - Laravel 12
@@ -80,6 +86,8 @@ $user = (new User)
 | `setWriteConnection($connection)` | Override the write connection at runtime |
 
 ## Testing
+
+The package includes a full test suite covering read/write routing, enum support, runtime overrides, and fallback behaviour. To run the tests:
 ```bash
 composer test
 ```
