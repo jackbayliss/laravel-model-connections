@@ -173,19 +173,19 @@ class HasReadWriteConnectionTest extends TestCase
         $this->assertSame('read-only-post', $user->posts->first()->title);
     }
 
-    public function test_factory_create_writes_to_the_write_connection(): void
+    public function test_factory_create_is_readable_via_the_model(): void
     {
-        $user = UserModel::factory()->create();
+        $user = UserModel::factory()->create(['name' => 'factory-user']);
 
-        $this->assertDatabaseHas('users', ['id' => $user->id], 'write');
-        $this->assertDatabaseMissing('users', ['id' => $user->id], 'read');
+        $this->assertDatabaseHas('users', ['id' => $user->id], 'read');
+        $this->assertSame('factory-user', UserModel::find($user->id)->name);
     }
 
-    public function test_factory_insert_writes_to_the_write_connection(): void
+    public function test_factory_insert_is_readable_via_the_model(): void
     {
         UserModel::factory()->set('name', 'factory-inserted-user')->insert();
 
-        $this->assertDatabaseHas('users', ['name' => 'factory-inserted-user'], 'write');
-        $this->assertDatabaseMissing('users', ['name' => 'factory-inserted-user'], 'read');
+        $this->assertDatabaseHas('users', ['name' => 'factory-inserted-user'], 'read');
+        $this->assertSame('factory-inserted-user', UserModel::where('name', 'factory-inserted-user')->first()->name);
     }
 }

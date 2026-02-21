@@ -16,7 +16,7 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 
 There's no first-party way to set specific models to only read. The alternative is manually calling `::on()` or `->setConnection()` everywhere you query, which is easy to forget and scatters connection logic across your codebase:
 ```php
-// Without this package — you have to remember to do this every time in your logic AND in tests when using factorys!
+// Without this package — you have to remember to do this every time
 User::on('mysql_replica')->where('active', true)->get();
 Post::on('mysql_replica')->latest()->get();
 ```
@@ -84,6 +84,45 @@ $user = (new User)
 | `getWriteConnectionName()` | Returns the write connection name as a string |
 | `setReadConnection($connection)` | Override the read connection at runtime |
 | `setWriteConnection($connection)` | Override the write connection at runtime |
+
+## Using with Factories
+
+By default, factories will write to your model's `$writeConnection`. In a real application this is correct — replication will sync the data to your read replica.
+
+However, in tests you typically want factory-created records to be immediately readable via the model. Since reads go to `$readConnection`, you need factory writes to land there too.
+
+Add the `HasReadWriteConnectionFactory` trait to your factory:
+
+```php
+use JackBayliss\LaravelModelConnection\Traits\HasReadWriteConnectionFactory;
+
+class UserFactory extends Factory
+{
+    use HasReadWriteConnectionFactory;
+
+    protected $model = User::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->name(),
+        ];
+    }
+}
+```
+
+This redirects the factory's save to the read connection, so `User::factory()->create()` produces records that `User::find()`, `User::get()`, etc. can retrieve.
+
+If you already have a `configure()` method, call `withReadWriteConnection()` inside it instead:
+
+```php
+public function configure(): static
+{
+    return $this->withReadWriteConnection()->afterCreating(function (User $user) {
+        // your own logic
+    });
+}
+```
 
 ## Testing
 
