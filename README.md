@@ -1,4 +1,6 @@
-# Laravel Model Connections [![Latest Version on Packagist](https://img.shields.io/packagist/v/jackbayliss/laravel-model-connection.svg?style=flat-square)](https://packagist.org/packages/jackbayliss/laravel-model-connection) [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/jackbayliss/laravel-model-connections/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/jackbayliss/laravel-model-connections/actions?query=workflow%3Arun-tests+branch%3Amain) [![Total Downloads](https://img.shields.io/packagist/dt/jackbayliss/laravel-model-connection.svg?style=flat-square)](https://packagist.org/packages/jackbayliss/laravel-model-connection)
+# Laravel Model Connections
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/jackbayliss/laravel-model-connection.svg?style=flat-square)](https://packagist.org/packages/jackbayliss/laravel-model-connection) [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/jackbayliss/laravel-model-connections/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/jackbayliss/laravel-model-connections/actions?query=workflow%3Arun-tests+branch%3Amain) [![Total Downloads](https://img.shields.io/packagist/dt/jackbayliss/laravel-model-connection.svg?style=flat-square)](https://packagist.org/packages/jackbayliss/laravel-model-connection)
 
 Define separate read and write database connections per Eloquent model.
 
