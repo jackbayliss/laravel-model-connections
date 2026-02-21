@@ -2,13 +2,16 @@
 
 namespace JackBayliss\LaravelModelConnection\Tests\Fixtures;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use JackBayliss\LaravelModelConnection\Traits\HasReadWriteConnection;
 
 class UserModel extends Model
 {
-    use HasReadWriteConnection;
+    use HasFactory, HasReadWriteConnection;
+
+    protected static $factory = UserModelFactory::class;
 
     protected $table = 'users';
 
