@@ -1,0 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+        - tests
+
+    level: 5
+
+    ignoreErrors:
+        - identifier: property.notFound

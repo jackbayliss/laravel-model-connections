@@ -1,7 +1,9 @@
 <?php
 
-namespace JackBayliss\LaravelModelConnection;
+namespace JackBayliss\LaravelModelConnection\Traits;
 
+use Illuminate\Database\Connection;
+use Illuminate\Database\Query\Builder;
 use UnitEnum;
 
 use function Illuminate\Support\enum_value;
@@ -9,19 +11,9 @@ use function Illuminate\Support\enum_value;
 trait HasReadWriteConnection
 {
     /**
-     * The read connection name for the model.
-     */
-    protected UnitEnum|string|null $readConnection;
-
-    /**
-     * The write connection name for the model.
-     */
-    protected UnitEnum|string|null $writeConnection = null;
-
-    /**
      * Get the read database connection for the model.
      */
-    public function getReadConnection(): \Illuminate\Database\Connection
+    public function getReadConnection(): Connection
     {
         return static::resolveConnection($this->getReadConnectionName());
     }
@@ -29,7 +21,7 @@ trait HasReadWriteConnection
     /**
      * Get the write database connection for the model.
      */
-    public function getWriteConnection(): \Illuminate\Database\Connection
+    public function getWriteConnection(): Connection
     {
         return static::resolveConnection($this->getWriteConnectionName());
     }
@@ -37,24 +29,46 @@ trait HasReadWriteConnection
     /**
      * Get the read connection name for the model.
      */
-    public function getReadConnectionName(): string|null
+    public function getReadConnectionName(): ?string
     {
-        return enum_value($this->readConnection) ?? $this->getConnectionName();
+        return isset($this->readConnection) ? enum_value($this->readConnection) : $this->getConnectionName();
     }
 
     /**
      * Get the write connection name for the model.
      */
-    public function getWriteConnectionName(): string|null
+    public function getWriteConnectionName(): ?string
     {
-        return enum_value($this->writeConnection) ?? $this->getConnectionName();
+        return isset($this->writeConnection) ? enum_value($this->writeConnection) : $this->getConnectionName();
+    }
+
+    /**
+     * Set the read connection name for the model.
+     */
+    public function setReadConnection(UnitEnum|string|null $readConnection): static
+    {
+        $this->readConnection = $readConnection;
+
+        return $this;
+    }
+
+    /**
+     * Set the write connection name for the model.
+     */
+    public function setWriteConnection(UnitEnum|string|null $writeConnection): static
+    {
+        $this->writeConnection = $writeConnection;
+
+        return $this;
     }
 
     /**
      * Get a new query builder instance for the connection.
      */
-    protected function newBaseQueryBuilder(): \Illuminate\Database\Query\Builder
+    protected function newBaseQueryBuilder(): Builder
     {
+        // We clone the write connection, so we can swap in the read PDO without
+        // mutating the shared connection instance held by the connection resolver.
         $connection = clone $this->getWriteConnection();
 
         $connection->setReadPdo($this->getReadConnection()->getReadPdo());
