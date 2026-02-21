@@ -5,7 +5,7 @@ Define separate read and write database connections per Eloquent model.
 
 ## Why?
 
-Laravel has built-in support for read/write connection splitting, but it's configured at the **connection level** in `config/database.php` — meaning every model using that connection shares the same read/write behaviour:
+Laravel has built-in support for read/write connection splitting, but it's configured at the **connection level** in `config/database.php` which means, every model using that connection shares the same read/write behaviour:
 ```php
 // config/database.php — this applies globally to all models on this connection
 'mysql' => [
@@ -15,6 +15,7 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 ```
 
 There's no first-party way to set specific models to only read. This package gives you control over read and write connections per model without touching your connection config.
+This is extremely useful if you know certain models can be deferred to a replica, and certain models are required instantly.
 
 ## Supports
 - Laravel 12
