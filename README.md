@@ -7,7 +7,7 @@ Define separate read and write database connections per Eloquent model.
 
 Laravel has built-in support for read/write connection splitting, but it's configured at the **connection level** in `config/database.php` which means, every model using that connection shares the same read/write behaviour:
 ```php
-// config/database.php — this applies globally to all models on this connection
+// config/database.php ...this applies globally to all models on this connection
 'mysql' => [
     'read'  => ['host' => '192.168.1.2'],
     'write' => ['host' => '196.168.1.3'],
@@ -16,7 +16,7 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 
 There's no first-party way to set specific models to only read. The alternative is manually calling `::on()` or `->setConnection()` everywhere you query, which is easy to forget and scatters connection logic across your codebase:
 ```php
-// Without this package — you have to remember to do this every time
+// Without this package ...you have to remember to do this every time
 User::on('mysql_replica')->where('active', true)->get();
 Post::on('mysql_replica')->latest()->get();
 ```
@@ -87,7 +87,7 @@ $user = (new User)
 
 ## Using with Factories
 
-By default, factories will write to your model's `$writeConnection` (default if empty). In a real application this is correct — replication will sync the data to your read replica.
+By default, factories will write to your model's `$writeConnection` (default if empty). In a real application this is correct as replication will sync the data to your read replica.
 
 However, in tests you typically want factory-created records to be immediately readable via the model. Since reads go to `$readConnection`, you need factory writes to land there too.
 
