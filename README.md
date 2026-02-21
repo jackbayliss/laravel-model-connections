@@ -16,7 +16,7 @@ Laravel has built-in support for read/write connection splitting, but it's confi
 
 There's no first-party way to set specific models to only read. The alternative is manually calling `::on()` or `->setConnection()` everywhere you query, which is easy to forget and scatters connection logic across your codebase:
 ```php
-// Without this package — you have to remember to do this every time
+// Without this package — you have to remember to do this every time in your logic AND in tests when using factorys!
 User::on('mysql_replica')->where('active', true)->get();
 Post::on('mysql_replica')->latest()->get();
 ```
