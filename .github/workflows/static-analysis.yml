@@ -72,3 +72,8 @@ jobs:
 
       - name: Run Pint
         run: vendor/bin/pint --test
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: Fix styling [CI]
